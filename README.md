@@ -24,13 +24,21 @@ VOID 3.4.0
 
     * 希望减少流量开支的人士 
 
+## 下载链接
+
+到[发布页面](https://github.com/Reedo0910/Typecho-Theme-VOID/releases)，下载**VOID-xxx-hack-xxx.zip**发布包文件。
+
+**该发布包文件仅包含主题包，主题的配套插件请安装该版本VOID的对应插件版本**。若您之前已安装对应版本的VOID，则直接解压该发布包并覆盖旧的主题文件即可。
+
+安装方式和配套插件以[原版Typecho Theme VOID的仓库](https://github.com/AlanDecode/Typecho-Theme-VOID)上的介绍为准。
+
 ## 更多介绍
 
 请参考[原版Typecho Theme VOID的仓库](https://github.com/AlanDecode/Typecho-Theme-VOID)，因为其他功能与原版一致。
 
 ## 声明
 
-因为本人没有Typecho的博客，该主题仅在[初之音](https://www.himiku.com/)上进行了使用测试，因此可能存在某些不确定的情况。
+因为本人没有Typecho的博客，该主题仅在[初之音](https://www.himiku.com/)上进行了测试，因此可能存在某些不确定的情况。
 
 该主题仅供学习交流使用。如要确保稳定，请使用原版主题。
 
