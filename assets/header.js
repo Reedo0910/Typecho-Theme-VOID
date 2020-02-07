@@ -111,30 +111,58 @@ VOID_Lazyload = {
     callback: function () {
         $.each($('img.lazyload:not(.loaded):not(.error)'), function (i, item) {
             if (VOID_Lazyload.inViewport(item)) {
-                var img = new Image();
-                img.src = $(item).attr('data-src');
-                img.onload = function () {
-                    if ($(item).hasClass('instant')) {
-                        $(item).attr('src', $(item).attr('data-src'));
-                        $(item).addClass('loaded');
-                        VOID_Lazyload.removeEventListener();
-                    } else {
-                        $(item).css('opacity', '0');
-                        setTimeout(function () {
-                            $(item).attr('src', $(item).attr('data-src'));
+                var webp_attr = $(item).attr('data-webp-src');
+                if (typeof webp_attr !== typeof undefined && webp_attr !== false && VOID_Content.isWebpCompatible) {
+                    var img = new Image();
+                    img.src = webp_attr;
+                    img.onload = function () {
+                        if ($(item).hasClass('instant')) {
+                            $(item).attr('src', webp_attr);
                             $(item).addClass('loaded');
                             VOID_Lazyload.removeEventListener();
-                            $(item).parent().parent().removeClass('placeholder');
-                        }, 550);
-                    }
-                };
-                img.onerror = function () {
-                    $(item).addClass('error');
-                    VOID_Lazyload.removeEventListener();
-                };
+                        } else {
+                            $(item).css('opacity', '0');
+                            setTimeout(function () {
+                                $(item).attr('src', webp_attr);
+                                $(item).addClass('loaded');
+                                VOID_Lazyload.removeEventListener();
+                                $(item).parent().parent().removeClass('placeholder');
+                            }, 550);
+                        }
+                    };
+                    img.onerror = function () {
+                        VOID_Lazyload.fallback_callback(item);
+                    };
+                } else {
+                    VOID_Lazyload.fallback_callback(item);
+                }
             }
         });
         VOID_Lazyload.removeEventListener();
+    },
+
+    fallback_callback: function(item){
+        var img_f = new Image();
+        img_f.src = $(item).attr('data-src');
+        img_f.onload = function () {
+            if ($(item).hasClass('instant')) {
+                $(item).attr('src', $(item).attr('data-src'));
+                $(item).addClass('loaded');
+                VOID_Lazyload.removeEventListener();
+            } else {
+                $(item).css('opacity', '0');
+                setTimeout(function () {
+                    $(item).attr('src', $(item).attr('data-src'));
+                    $(item).addClass('loaded');
+                    VOID_Lazyload.removeEventListener();
+                    $(item).parent().parent().removeClass('placeholder');
+                }, 550);
+            }
+        };
+        img_f.onerror = function () {
+            $(item).addClass('error');
+            VOID_Lazyload.removeEventListener();
+        };
     },
 
     init: function () {

@@ -49,6 +49,22 @@ var VOID_Content = {
         }
     },
 
+    // 检查WebP兼容性 (source code from https://akarin.dev/2019/10/22/upgrade-to-webp/)
+    checkWebp:function () {
+        var img = new Image();
+        img.onload = function () {
+            if (img.width > 0 && img.height > 0) {
+                VOID_Content.isWebpCompatible = true;
+            } else {
+                VOID_Content.isWebpCompatible = false;
+            }
+        };
+        img.onerror = function () { VOID_Content.isWebpCompatible = false; };
+        img.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+    },
+
+    isWebpCompatible: false,
+
     // 解析照片集
     parsePhotos: function () {
         $.each($('div[itemprop=articleBody] figure'), function (i, item){
@@ -56,14 +72,32 @@ var VOID_Content = {
                 $(item).addClass('stand-alone');
         });
         $.each($('div[itemprop=articleBody] figure:not(.size-parsed)'), function (i, item){
+            var webp_src = $(item).find('img').attr('data-webp-src');
             var img = new Image();
-            img.src = $(item).find('img').attr('data-src');
+            if (typeof webp_src !== typeof undefined && webp_src !== false && VOID_Content.isWebpCompatible) {
+                img.src = webp_src;
+            } else {
+                img.src = $(item).find('img').attr('data-src');
+            }
             img.onload = function () {
                 var w = parseFloat(img.width);
                 var h = parseFloat(img.height);
                 $(item).addClass('size-parsed');
                 $(item).css('flex-grow', w * 50 / h);
                 $(item).find('a').css('padding-top', h / w * 100 + '%');
+            };
+            img.onerror = function () {
+                if (typeof webp_src !== typeof undefined && webp_src !== false && VOID_Content.isWebpCompatible) {
+                    var img_f = new Image();
+                    img_f.src = $(item).find('img').attr('data-src');
+                    img_f.onload = function () {
+                        var w_f = parseFloat(img_f.width);
+                        var h_f = parseFloat(img_f.height);
+                        $(item).addClass('size-parsed');
+                        $(item).css('flex-grow', w_f * 50 / h_f);
+                        $(item).find('a').css('padding-top', h_f / w_f * 100 + '%');
+                    };
+                }
             };
         });
     },
@@ -174,6 +208,7 @@ var VOID = {
     init: function () {
         /* 初始化 UI */
         VOID_Ui.checkHeader();
+        VOID_Content.checkWebp();
         VOID_Ui.MasonryCtrler.init();
         VOID_Ui.DarkModeSwitcher.checkColorScheme();
         VOID_Ui.checkScrollTop();
@@ -225,6 +260,7 @@ var VOID = {
     afterPjax: function () {
         NProgress.done();
 
+        VOID_Content.checkWebp();
         VOID_Content.parseBoardThumbs();
 
         if ($('#loggin-form').length) {

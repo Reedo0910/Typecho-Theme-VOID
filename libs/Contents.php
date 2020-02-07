@@ -254,6 +254,8 @@ Class Contents
         $src_ori = $match[1];
         $src = $src_ori;
         $classList = '';
+        $pic_info = pathinfo($src_ori);
+        $src_webp = ($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp'; // replace ext
 
         // 这里，若图片已获取长宽基础信息，则直接计算后输出
         $attrAddOnA = '';
@@ -286,10 +288,10 @@ Class Contents
         if ($match[2] != '' && $setting['parseFigcaption'])
             $figcaption = '<figcaption>'.$match[2].'</figcaption>';
 
-        $img = '<img '.$img_onload.' class="'.$classList.'" alt="'.$match[2].'" data-src="'.$src_ori.'" src="'.$src.'">';
+        $img = '<img '.$img_onload.' class="'.$classList.'" alt="'.$match[2].'" data-src="'.$src_ori.'" data-webp-src="'.$src_webp.'" src="'.$src.'">'; // add webp support
 
         if (!self::$photoMode) {
-            return '<figure '.$attrAddOnFigure.' ><a '.$attrAddOnA.' no-pjax data-fancybox="gallery" data-caption="'.$match[2].'" href="'.$src_ori.'">'.$img.'</a>'.$figcaption.'</figure>';
+            return '<figure '.$attrAddOnFigure.' ><a '.$attrAddOnA.' no-pjax data-fancybox="gallery" data-caption="'.$match[2].'" data-webp-src="'.$src_webp.'" href="'.$src_ori.'">'.$img.'</a>'.$figcaption.'</figure>'; // add webp support
         } else {
             return '<figure>'.$img.$figcaption.'</figure>';
         }
