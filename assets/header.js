@@ -135,9 +135,11 @@ VOID_Lazyload = {
                         }
                     };
                     img.onerror = function () {
+                        $(item).removeAttr('data-webp-src');
                         VOID_Lazyload.fallback_callback(item);
                     };
                 } else {
+                    $(item).removeAttr('data-webp-src');
                     VOID_Lazyload.fallback_callback(item);
                 }
             }
