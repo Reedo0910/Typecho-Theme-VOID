@@ -267,6 +267,8 @@ Class Contents
             preg_match("/vhei=(\d{0,5})/i", $src_ori, $matches);
             $height = floatval($matches[1]);
 
+            $src_webp = $src_webp . '#vwid=' . $width . '&vhei=' . $height; // 为webp链接添加标记
+
             $ratio = $height / $width * 100;
             $flex_grow = $width * 50 / $height;
 
