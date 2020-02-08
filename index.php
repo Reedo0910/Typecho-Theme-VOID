@@ -50,7 +50,11 @@ if(!Utils::isPjax()){
                             <?php endif; ?>
                                 <div class="banner" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
                                     <?php if (Helper::options()->lazyload == '1'): ?>
-                                        <img class="lazyload instant" src="<?php echo Contents::getPlaceHolder(); ?>" data-src="<?php echo $this->fields->banner;?>">
+                                        <?php 
+                                        $pic_info = $this->fields->banner == '' ? '' : pathinfo($this->fields->banner);
+                                        $src_webp = $this->fields->banner == '' ? '' : (($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp');
+                                        ?>
+                                        <img class="lazyload instant" src="<?php echo Contents::getPlaceHolder(); ?>" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner;?>">
                                     <?php else: ?>
                                         <img src="<?php echo $this->fields->banner;?>">
                                     <?php endif; ?>

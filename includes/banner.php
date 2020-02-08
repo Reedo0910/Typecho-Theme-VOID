@@ -28,6 +28,9 @@ if($this->is('post')) {
 if($this->is('page')){
     $banner = $this->fields->banner;
 }
+
+$banner_pic_info = $banner == '' ? '' : pathinfo($banner);
+$banner_src_webp = $banner == '' ? '' : (($banner_pic_info['dirname'] ? $banner_pic_info['dirname'] . '/' : '') . $banner_pic_info['filename'] . '.' . 'webp');
 ?>
 
 <div class="lazy-wrap
@@ -38,7 +41,7 @@ if($this->is('page')){
 
     <?php if(!empty($banner)): ?>
         <div id="banner" class="<?php if($blur) echo 'blur'; ?>">
-            <img class="lazyload instant" data-src="<?php echo $banner; ?>">
+            <img class="lazyload instant" data-webp-src="<?php echo $banner_src_webp; ?>" data-src="<?php echo $banner; ?>">
         </div>
         <script>$('body>header').removeClass('force-dark').removeClass('no-banner');</script>
     <?php else: ?>
