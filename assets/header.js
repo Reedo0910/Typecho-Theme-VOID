@@ -127,6 +127,10 @@ VOID_Lazyload = {
                                 $(item).addClass('loaded');
                                 VOID_Lazyload.removeEventListener();
                                 $(item).parent().parent().removeClass('placeholder');
+                                var webp_href = $(item).parent().attr('data-webp-href');
+                                if (typeof webp_href !== typeof undefined && webp_href !== false) {
+                                    $(item).parent().attr('href', webp_href);
+                                }
                             }, 550);
                         }
                     };
