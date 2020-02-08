@@ -264,6 +264,17 @@ article {
         padding: 0!important;
     }
 
+    figure.placeholder a {
+        background-color: #f0f0f0;
+        .theme-dark & {
+            background-color: #232323;
+        }
+    }
+
+    figure img.lazyload:not(.instant) {
+        opacity: 0;
+    }
+
     .photos {
         figure {
             margin: 2.5px;
