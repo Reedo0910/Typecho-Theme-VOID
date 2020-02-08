@@ -84,11 +84,6 @@ var VOID_Content = {
         $.each($('div[itemprop=articleBody] figure:not(.size-parsed)'), function (i, item){
             var webp_src = $(item).find('img').attr('data-webp-src');
             var img = new Image();
-            if (typeof webp_src !== typeof undefined && webp_src !== false && VOID_Content.isWebpCompatible) {
-                img.src = webp_src;
-            } else {
-                img.src = $(item).find('img').attr('data-src');
-            }
             img.onload = function () {
                 var w = parseFloat(img.width);
                 var h = parseFloat(img.height);
@@ -99,7 +94,6 @@ var VOID_Content = {
             img.onerror = function () {
                 if (typeof webp_src !== typeof undefined && webp_src !== false && VOID_Content.isWebpCompatible) {
                     var img_f = new Image();
-                    img_f.src = $(item).find('img').attr('data-src');
                     img_f.onload = function () {
                         var w_f = parseFloat(img_f.width);
                         var h_f = parseFloat(img_f.height);
@@ -107,8 +101,14 @@ var VOID_Content = {
                         $(item).css('flex-grow', w_f * 50 / h_f);
                         $(item).find('a').css('padding-top', h_f / w_f * 100 + '%');
                     };
+                    img_f.src = $(item).find('img').attr('data-src');
                 }
             };
+            if (typeof webp_src !== typeof undefined && webp_src !== false && VOID_Content.isWebpCompatible) {
+                img.src = webp_src;
+            } else {
+                img.src = $(item).find('img').attr('data-src');
+            }
         });
     },
 

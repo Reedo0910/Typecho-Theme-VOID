@@ -114,7 +114,6 @@ VOID_Lazyload = {
                 var webp_attr = $(item).attr('data-webp-src');
                 if (typeof webp_attr !== typeof undefined && webp_attr !== false && VOID_Content.isWebpCompatible) {
                     var img = new Image();
-                    img.src = webp_attr;
                     img.onload = function () {
                         if ($(item).hasClass('instant')) {
                             $(item).attr('src', webp_attr);
@@ -138,6 +137,7 @@ VOID_Lazyload = {
                         $(item).removeAttr('data-webp-src');
                         VOID_Lazyload.fallback_callback(item);
                     };
+                    img.src = webp_attr;
                 } else {
                     $(item).removeAttr('data-webp-src');
                     VOID_Lazyload.fallback_callback(item);
@@ -149,7 +149,6 @@ VOID_Lazyload = {
 
     fallback_callback: function(item){
         var img_f = new Image();
-        img_f.src = $(item).attr('data-src');
         img_f.onload = function () {
             if ($(item).hasClass('instant')) {
                 $(item).attr('src', $(item).attr('data-src'));
@@ -169,6 +168,7 @@ VOID_Lazyload = {
             $(item).addClass('error');
             VOID_Lazyload.removeEventListener();
         };
+        img_f.src = $(item).attr('data-src');
     },
 
     init: function () {
