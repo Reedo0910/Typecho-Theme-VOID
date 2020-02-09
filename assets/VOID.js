@@ -77,6 +77,7 @@ var VOID_Content = {
 
     setLightBoxOption: function () {
         lightbox.option({
+            'albumLabel': '第 %1 / %2 张图片',
             'disableScrolling': true,
             'fadeDuration': 500,
             'imageFadeDuration': 500
@@ -85,6 +86,16 @@ var VOID_Content = {
 
     // 解析照片集
     parsePhotos: function () {
+        $.each($('div.articleBody div.photos'), function (i, item){
+            var tmpId = '';
+            $.each($(item).find('a[data-lightbox]'), function (i, aItem){
+                if (i === 0) {
+                    tmpId = $(aItem).attr('data-lightbox');
+                } else {
+                    $(aItem).attr('data-lightbox', tmpId);
+                }
+            });
+        });
         $.each($('div.articleBody figure:not(.size-parsed)'), function (i, item){
             var img = new Image();
             img.onload = function () {
