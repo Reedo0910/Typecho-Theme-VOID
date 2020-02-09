@@ -37,7 +37,7 @@ if($this->fields->bannerStyle > 0) {
                                 $pic_info = $this->fields->banner == '' ? '' : pathinfo($this->fields->banner);
                                 $src_webp = $this->fields->banner == '' ? '' : (($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp');
                             ?>
-                            <a no-pjax data-fancybox="gallery" data-webp-href="<?php echo $src_webp; ?>"  href="<?php echo $this->fields->banner; ?>">
+                            <a no-pjax data-lightbox="<?php echo $this->fields->banner; ?>" data-webp-href="<?php echo $src_webp; ?>"  href="<?php echo $this->fields->banner; ?>">
                             <?php if(Helper::options()->lazyload == '1'): ?>
                                 <img class="lazyload" src="<?php echo Contents::getPlaceHolder(); ?>" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner; ?>" />
                             <?php else: ?>
@@ -82,8 +82,7 @@ if($this->fields->bannerStyle > 0) {
                         data-weibo="<?php if($setting['weiboId']!='') echo $setting['weiboId']; else $this->author(); ?>"
                         <?php if($this->fields->banner != '') echo 'data-image="'.$this->fields->banner.'"';?>>
                         <?php if(!empty($setting['reward'])):?>
-                            <a data-fancybox="gallery-reward" role=button aria-label="赞赏" data-src="#reward" href="javascript:;" class="btn btn-normal btn-highlight">赏杯咖啡</a>
-                            <div hidden id="reward"><img src="<?php echo $setting['reward']; ?>"></div>
+                            <a data-lightbox="gallery-reward" role=button data-alt="赞赏" aria-label="赞赏" href="<?php echo $setting['reward']; ?>" class="btn btn-normal btn-highlight">赏杯咖啡</a>
                         <?php endif; ?>
                         <?php if($setting['VOIDPlugin']):?>
                             <a role=button 
