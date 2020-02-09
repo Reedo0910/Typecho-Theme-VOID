@@ -45,6 +45,9 @@ if($this->is('page')){
         if(Utils::isMobile()) {
             echo ' mobile';
         }
+        if(Utils::isWebpSupport()) {
+            echo ' webp-support';
+        }
         if(Utils::isIosSafari()) {
             echo ' ios-safari';
         }

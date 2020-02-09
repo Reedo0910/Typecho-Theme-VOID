@@ -51,26 +51,7 @@ var VOID_Content = {
 
     // 检查WebP兼容性
     checkWebp:function () {
-        var supportTag = localStorage.getItem('isWebPSupport');
-        if (supportTag && supportTag === 'True') {
-            VOID_Content.isWebpCompatible = true;
-        } else if (supportTag && supportTag === 'False') {
-            VOID_Content.isWebpCompatible = false;
-        } else {
-            // code from https://akarin.dev/2019/10/22/upgrade-to-webp/
-            var img = new Image();
-            img.onload = function () {
-                if (img.width > 0 && img.height > 0) {
-                    VOID_Content.isWebpCompatible = true;
-                    localStorage.setItem('isWebPSupport', 'True');
-                } else {
-                    VOID_Content.isWebpCompatible = false;
-                    localStorage.setItem('isWebPSupport', 'False');
-                }
-            };
-            img.onerror = function () { VOID_Content.isWebpCompatible = false; localStorage.setItem('isWebPSupport', 'False'); };
-            img.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
-        }
+        VOID_Content.isWebpCompatible = $('body:first').hasClass('webp-support');
     },
 
     isWebpCompatible: false,

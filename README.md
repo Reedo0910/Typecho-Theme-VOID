@@ -46,6 +46,10 @@ VOID 3.4.0
 
 当然，你也可以尝试向我提Issue (Nice try!)  ~~能不能修好就是另一回事了~~
 
-## License
+## 感谢
 
-MIT © [AlanDecode](https://github.com/AlanDecode)
+### 开源项目
+
+- [Typecho Theme VOID](https://github.com/AlanDecode/Typecho-Theme-VOID) [MIT] © [AlanDecode](https://github.com/AlanDecode)
+
+- [lightbox2](https://github.com/lokesh/lightbox2) [MIT] © [Lokesh Dhakar](https://github.com/lokesh)

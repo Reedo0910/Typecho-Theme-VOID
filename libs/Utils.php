@@ -124,6 +124,20 @@ class Utils
     }
 
     /**
+     * WebP兼容判定
+     * 
+     * @return bool
+     */
+    public static function isWebpSupport()
+    {
+        $webp = strpos($_SERVER['HTTP_ACCEPT'], 'image/webp');
+        if ($webp === false) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
      * iOS 判定
      */
     public static function isIosSafari () {
