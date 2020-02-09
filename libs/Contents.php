@@ -83,7 +83,7 @@ Class Contents
         $text = empty($last)?$data:$last;
         if ($widget instanceof Widget_Archive) {
             $text = self::parseRuby($text);
-            $text = self::parseFancyBox($text, $widget->parameter->__get('type') == 'feed');
+            $text = self::parseLightBox($text, $widget->parameter->__get('type') == 'feed');
             $text = self::parseBiaoQing($text);
             $text = self::parsePhotoSet($text);
             $text = self::parseNotice($text);
@@ -229,17 +229,17 @@ Class Contents
     }
 
     /**
-     * 解析 fancybox
+     * 解析 lightbox
      * 
      * @return string
      * @param photoMode false: 普通解析，true: RSS(不包裹 a 标签)
      */
     static private $photoMode = false;
-    static public function parseFancyBox($content, $photoMode = false)
+    static public function parseLightBox($content, $photoMode = false)
     {
         $reg = '/<img.*?src="(.*?)".*?alt="(.*?)".*?>/s';
         self::$photoMode = $photoMode;
-        $new = preg_replace_callback($reg, array('Contents', 'parseFancyBoxCallback'), $content);
+        $new = preg_replace_callback($reg, array('Contents', 'parseLightBoxCallback'), $content);
         return $new;
     }
 
@@ -248,7 +248,7 @@ Class Contents
      * 
      * @return string
      */
-    private static function parseFancyBoxCallback($match)
+    private static function parseLightBoxCallback($match)
     {
         $setting = $GLOBALS['VOIDSetting'];
         $src_ori = $match[1];
