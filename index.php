@@ -1,12 +1,13 @@
 <?php
 /**
- * VOID：无类型
+ * VOID Δ
+ * 该主题系Zeee在<a href="https://blog.imalan.cn/archives/247/">Typecho-Theme-VOID</a>的基础上修改的主题，仅供个人学习交流使用。
+ * 可通过访问<a href="https://github.com/Reedo0910/Typecho-Theme-VOID">主题仓库</a>来获取更多信息。
  * 
- * 作者：<a href="https://www.imalan.cn">熊猫小A</a>
  * 
- * @package     Typecho-Theme-VOID
- * @author      熊猫小A
- * @version     3.4.0
+ * @package     Typecho-Theme-VOID(Δ)
+ * @author      熊猫小A (修改者：Zeee)
+ * @version     1.0 (based on VOID 3.4.0)
  * @link        https://blog.imalan.cn/archives/247/
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
