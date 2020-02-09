@@ -26,7 +26,7 @@ var VOID_Content = {
                 // Where to render the table of contents.
                 tocSelector: '.TOC',
                 // Where to grab the headings to build the table of contents.
-                contentSelector: 'div[itemprop=articleBody]',
+                contentSelector: 'div.articleBody',
                 // Which headings to grab inside of the contentSelector element.
                 headingSelector: 'h2, h3, h4, h5',
                 // 收缩深度
@@ -85,17 +85,13 @@ var VOID_Content = {
 
     // 解析照片集
     parsePhotos: function () {
-        $.each($('div[itemprop=articleBody] figure'), function (i, item){
-            if (!$(item).parent().hasClass('photos'))
-                $(item).addClass('stand-alone');
-        });
-        $.each($('div[itemprop=articleBody] figure:not(.size-parsed)'), function (i, item){
-            var webp_src = $(item).find('img').attr('data-webp-src');
+        $.each($('div.articleBody figure:not(.size-parsed)'), function (i, item){
             var img = new Image();
             img.onload = function () {
                 var w = parseFloat(img.width);
                 var h = parseFloat(img.height);
                 $(item).addClass('size-parsed');
+                $(item).css('width', w + 'px');
                 $(item).css('flex-grow', w * 50 / h);
                 $(item).find('a').css('padding-top', h / w * 100 + '%');
             };
@@ -106,6 +102,7 @@ var VOID_Content = {
                         var w_f = parseFloat(img_f.width);
                         var h_f = parseFloat(img_f.height);
                         $(item).addClass('size-parsed');
+                        $(item).css('width', w_f + 'px');
                         $(item).css('flex-grow', w_f * 50 / h_f);
                         $(item).find('a').css('padding-top', h_f / w_f * 100 + '%');
                     };
@@ -124,7 +121,7 @@ var VOID_Content = {
     parseBoardThumbs: function () {
         $.each($('.board-thumb'), function(i, item) {
             if (VOIDConfig.lazyload)
-                $(item).html('<img class="lazyload instant" data-src="' +$(item).attr('data-thumb')+ '">');
+                $(item).html('<img class="lazyload" data-src="' +$(item).attr('data-thumb')+ '">');
             else
                 $(item).html('<img src="' +$(item).attr('data-thumb')+ '">');
         });
@@ -192,7 +189,7 @@ var VOID_Content = {
     },
 
     hyphenate: function() {
-        $('div[itemprop=articleBody] p, div[itemprop=articleBody] blockquote').hyphenate('en-us');
+        $('div.articleBody p, div.articleBody blockquote').hyphenate('en-us');
     },
 
     tuneBiliPlayer: function () {
@@ -628,7 +625,7 @@ var AjaxComment = {
                             }
 
                             var newCommentType = AjaxComment.parentID == '' ? 'comment-parent' : 'comment-child';
-                            var newCommentData = '<div itemscope itemtype="http://schema.org/UserComments" id="comment-' + AjaxComment.newID + '" style="opacity:0" class="comment-body ' + newCommentType + '">' + $(data).find('#comment-' + AjaxComment.newID).html() + '</div>';
+                            var newCommentData = '<div id="comment-' + AjaxComment.newID + '" style="opacity:0" class="comment-body ' + newCommentType + '">' + $(data).find('#comment-' + AjaxComment.newID).html() + '</div>';
 
                             // 当页面无评论，先添加一个评论容器
                             if ($(AjaxComment.commentList).length <= 0) {

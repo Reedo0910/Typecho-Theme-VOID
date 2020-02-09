@@ -115,19 +115,13 @@ VOID_Lazyload = {
                 if (typeof webp_attr !== typeof undefined && webp_attr !== false && VOID_Content.isWebpCompatible) {
                     var img = new Image();
                     img.onload = function () {
-                        if ($(item).hasClass('instant')) {
-                            $(item).attr('src', webp_attr);
-                            $(item).addClass('loaded');
-                            VOID_Lazyload.removeEventListener();
-                        } else {
-                            $(item).addClass('loaded');
-                            $(item).parent().parent().removeClass('placeholder');
-                            $(item).attr('src', webp_attr);
-                            VOID_Lazyload.removeEventListener();
-                            var webp_href = $(item).parent().attr('data-webp-href');
-                            if (typeof webp_href !== typeof undefined && webp_href !== false) {
-                                $(item).parent().attr('href', webp_href);
-                            }
+                        $(item).addClass('loaded');
+                        $(item).attr('src', webp_attr);
+                        $(item).siblings('.blured-placeholder').addClass('loaded');
+                        VOID_Lazyload.removeEventListener();
+                        var webp_href = $(item).parent().attr('data-webp-href');
+                        if (typeof webp_href !== typeof undefined && webp_href !== false) {
+                            $(item).parent().attr('href', webp_href);
                         }
                     };
                     img.onerror = function () {
@@ -147,16 +141,10 @@ VOID_Lazyload = {
     fallback_callback: function(item){
         var img_f = new Image();
         img_f.onload = function () {
-            if ($(item).hasClass('instant')) {
-                $(item).attr('src', $(item).attr('data-src'));
-                $(item).addClass('loaded');
-                VOID_Lazyload.removeEventListener();
-            } else {
-                $(item).addClass('loaded');
-                $(item).parent().parent().removeClass('placeholder');
-                $(item).attr('src', $(item).attr('data-src'));
-                VOID_Lazyload.removeEventListener();
-            }
+            $(item).addClass('loaded');
+            $(item).attr('src', $(item).attr('data-src'));
+            $(item).siblings('.blured-placeholder').addClass('loaded');
+            VOID_Lazyload.removeEventListener();
         };
         img_f.onerror = function () {
             $(item).addClass('error');

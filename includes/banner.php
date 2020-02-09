@@ -41,7 +41,10 @@ $banner_src_webp = $banner == '' ? '' : (($banner_pic_info['dirname'] ? $banner_
 
     <?php if(!empty($banner)): ?>
         <div id="banner" class="<?php if($blur) echo 'blur'; ?>">
-            <img class="lazyload instant" data-webp-src="<?php echo $banner_src_webp; ?>" data-src="<?php echo $banner; ?>">
+            <?php if($setting['bluredLazyload']): ?>
+                <img src="<?php echo Contents::genBluredPlaceholderSrc($banner); ?>" class="blured-placeholder">
+            <?php endif; ?>
+            <img class="lazyload" data-src="<?php echo $banner; ?>" data-webp-src="<?php echo $banner_src_webp; ?>">
         </div>
         <script>$('body>header').removeClass('force-dark').removeClass('no-banner');</script>
     <?php else: ?>
@@ -73,8 +76,8 @@ $banner_src_webp = $banner == '' ? '' : (($banner_pic_info['dirname'] ? $banner_
                         echo Utils::getCatNum()." 分类 × ".Utils::getPostNum()." 文章 × ".Utils::getTagNum()." 标签";
                         if($setting['VOIDPlugin']) echo ' × <span id="totalWordCount"></span> 字';
                     } else{ ?>
-                        <span itemprop="author"><a href="<?php $this->author->permalink(); ?>"><?php $this->author(); ?></a></span>&nbsp;•&nbsp;
-                        <time datetime="<?php echo date('c', $this->created); ?>" itemprop="datePublished"><?php echo date('Y-m-d', $this->created); ?></time>
+                        <span><a href="<?php $this->author->permalink(); ?>"><?php $this->author(); ?></a></span>&nbsp;•&nbsp;
+                        <time datetime="<?php echo date('c', $this->created); ?>"><?php echo date('Y-m-d', $this->created); ?></time>
                         &nbsp;•&nbsp;<a no-pjax target="_self" href="javascript:void(0);" onclick="VOID_SmoothScroller.scrollTo('#comments', -60)"><?php $this->commentsNum(); ?>&nbsp;评论</a>
                         <?php if($setting['VOIDPlugin']) echo '&nbsp;•&nbsp;<span>'.$this->viewsNum.'&nbsp;阅读</span>'; ?>
                         <?php if($this->user->hasLogin()): ?>

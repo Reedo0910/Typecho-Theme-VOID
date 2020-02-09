@@ -325,14 +325,15 @@ class Utils
             'macStyleCodeBlock' => true,
             'lineNumbers' => true,
             'parseFigcaption' => true,
-            'showHeadlineInPost' => true,
             'darkModeTime' => array (
                 'start' => 22.0,
                 'end' => 7.0
             ),
             'link' => array(),
             'commentFoldThreshold' => array(5, 1.5),
-            'commentNotification' => ''
+            'commentNotification' => '',
+            'bluredLazyload' => false,
+            'CDNType' => array()
         );
 
         if(!empty($options->advance)){

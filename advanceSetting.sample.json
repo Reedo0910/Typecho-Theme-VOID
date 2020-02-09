@@ -29,9 +29,6 @@
 
     // 在图片下方显示图题
     "parseFigcaption": true,
-    
-    // 在文章顶部显示摘要
-    "showHeadlineInPost": true,
 
     // 社交 ID，用于生成分享链接
     "twitterId": "AlanDecode",
@@ -54,6 +51,13 @@
 
     // 大图集
     "largePhotoSet": true,
+
+    // 模糊懒加载。通过提供小缩略图，以实现渐变加载效果。目前支持又拍云与七牛云 CDN。
+    // 其中又拍云请把图片处理间隔符设置为 !
+    "bluredLazyload": false,
+    "CDNType": {
+        "static.imalan.cn": "UPYUN" // UPYUN, QINIU
+    },
 
     // Mac 风格代码块
     "macStyleCodeBlock": true,

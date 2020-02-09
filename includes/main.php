@@ -19,32 +19,26 @@ if($this->fields->bannerStyle > 0) {
         <?php Contents::title($this); ?>
     </title>
 
+    <?php $this->need('includes/ldjson.php'); ?>
     <?php $this->need('includes/banner.php'); ?>
 
     <div class="wrapper container">
         <div class="contents-wrap"> <!--start .contents-wrap-->
             <section id="post" class="float-up">
-                <article class="post yue" itemscope itemtype="http://schema.org/Article">
-                    <h1 hidden itemprop="name"><?php $this->title(); ?></h1>
-                    <span hidden itemprop="author"><?php $this->author(); ?></span>
-                    <time hidden datetime="<?php echo date('c', $this->created); ?>" itemprop="datePublished"><?php echo date('Y-m-d', $this->created); ?></time>
-
-                    <p <?php if($this->fields->excerpt=='' || !$setting['showHeadlineInPost']) echo 'hidden'?> class="headline" itemprop="headline"><?php if($this->fields->excerpt!='') echo $this->fields->excerpt; else $this->excerpt(30); ?></p>
-
+                <article class="post yue">
                     <?php if($this->fields->banner != ''): ?>
-                        <div <?php if($setting['bannerStyle'] == 0 || $setting['bannerStyle'] == 2 || $setting['bannerStyle'] == 4 || $this->is('page')) echo 'hidden'; ?> class="post-banner" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+                        <div <?php if($setting['bannerStyle'] == 0 || $setting['bannerStyle'] == 2 || $setting['bannerStyle'] == 4 || $this->is('page')) echo 'hidden'; ?> class="post-banner">
                             <?php 
                                 $pic_info = $this->fields->banner == '' ? '' : pathinfo($this->fields->banner);
                                 $src_webp = $this->fields->banner == '' ? '' : (($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp');
                             ?>
                             <a no-pjax data-lightbox="<?php echo $this->fields->banner; ?>" data-webp-href="<?php echo $src_webp; ?>"  href="<?php echo $this->fields->banner; ?>">
                             <?php if(Helper::options()->lazyload == '1'): ?>
-                                <img class="lazyload" src="<?php echo Contents::getPlaceHolder(); ?>" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner; ?>" />
+                                <img class="lazyload" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner; ?>" />
                             <?php else: ?>
                                 <img src="<?php echo $this->fields->banner; ?>" />
-                            <?php endif; ?>                            
+                            <?php endif; ?>
                             </a>
-                            <meta itemprop="url" content="<?php echo $this->fields->banner; ?>">
                         </div>
                     <?php endif; ?>
 
@@ -52,7 +46,7 @@ if($this->fields->bannerStyle > 0) {
                         <p class="notice">请注意，本文编写于 <?php echo $postCheck["created"]; ?> 天前，最后修改于 <?php echo $postCheck["updated"]; ?> 天前，其中某些信息可能已经过时。</p>
                     <?php endif; ?>
 
-                    <div itemprop="articleBody" class="full">
+                    <div class="articleBody" class="full">
                         <?php $this->content(); ?>
                     </div>
                     
@@ -64,15 +58,6 @@ if($this->fields->bannerStyle > 0) {
                         echo '</section>';
                     } ?>
 
-                    <div hidden itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
-                        <meta itemprop="name" content="<?php echo $this->options->title; ?>">
-                        <meta itemprop="url" content="<?php $this->options->siteUrl(); ?>">
-                        <div itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject">
-                            <meta itemprop="url" content="<?php Utils::gravatar($this->author->mail, 256, ''); ?>">
-                        </div>
-                    </div>
-                    <meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="<?php $this->permalink(); ?>">
-                    <meta itemprop="dateModified" content="<?php echo date('c', $this->modified); ?>">
                     <div class="social-button" 
                         data-url="<?php $this->permalink(); ?>"
                         data-title="<?php Contents::title($this); ?>" 
