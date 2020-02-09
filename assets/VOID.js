@@ -75,6 +75,14 @@ var VOID_Content = {
 
     isWebpCompatible: false,
 
+    setLightBoxOption: function () {
+        lightbox.option({
+            'disableScrolling': true,
+            'fadeDuration': 500,
+            'imageFadeDuration': 500
+        });
+    },
+
     // 解析照片集
     parsePhotos: function () {
         $.each($('div[itemprop=articleBody] figure'), function (i, item){
@@ -219,6 +227,7 @@ var VOID = {
         /* 初始化 UI */
         VOID_Ui.checkHeader();
         VOID_Content.checkWebp();
+        VOID_Content.setLightBoxOption();
         VOID_Ui.MasonryCtrler.init();
         VOID_Ui.DarkModeSwitcher.checkColorScheme();
         VOID_Ui.checkScrollTop();
@@ -271,6 +280,7 @@ var VOID = {
         NProgress.done();
 
         VOID_Content.checkWebp();
+        VOID_Content.setLightBoxOption();
         VOID_Content.parseBoardThumbs();
 
         if ($('#loggin-form').length) {

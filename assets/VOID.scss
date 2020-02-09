@@ -12,6 +12,7 @@
 html{
     font-size: 16px;
     font-family: $void-font-sans;
+    overflow-x: hidden; // add by lightbox
 }
 
 .theme-dark ::selection {
