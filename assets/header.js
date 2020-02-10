@@ -119,10 +119,6 @@ VOID_Lazyload = {
                         $(item).attr('src', webp_attr);
                         $(item).siblings('.blured-placeholder').addClass('loaded');
                         VOID_Lazyload.removeEventListener();
-                        var webp_href = $(item).parent().attr('data-webp-href');
-                        if (typeof webp_href !== typeof undefined && webp_href !== false) {
-                            $(item).parent().attr('href', webp_href);
-                        }
                     };
                     img.onerror = function () {
                         $(item).removeAttr('data-webp-src');

@@ -316,9 +316,12 @@ Class Contents
         }
 
         $img = $placeholder.'<img class="'.$classList.'" alt="'.$match[2].'" data-src="'.$src_ori.'" data-webp-src="'.$src_webp.'" src="'.$src.'">'; // add webp support
-
+        
         if (!self::$photoMode) {
-            return '<figure '.$attrAddOnFigure.' ><a '.$attrAddOnA.' no-pjax data-lightbox="'.$src_ori.'" data-title="'.$match[2].'" data-webp-href="'.$src_webp.'" href="'.$src_ori.'">'.$img.'</a>'.$figcaption.'</figure>'; // add webp support
+            // 生成唯一图片ID
+            $photoId = uniqid('lightbox_');
+
+            return '<figure '.$attrAddOnFigure.' ><a '.$attrAddOnA.' no-pjax data-lightbox="'.$photoId.'" data-title="'.$match[2].'" data-webp-href="'.$src_webp.'" href="'.$src_ori.'">'.$img.'</a>'.$figcaption.'</figure>'; // add webp support
         } else {
             return '<figure>'.$img.$figcaption.'</figure>';
         }

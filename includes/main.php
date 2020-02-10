@@ -32,7 +32,7 @@ if($this->fields->bannerStyle > 0) {
                                 $pic_info = $this->fields->banner == '' ? '' : pathinfo($this->fields->banner);
                                 $src_webp = $this->fields->banner == '' ? '' : (($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp');
                             ?>
-                            <a no-pjax data-lightbox="<?php echo $this->fields->banner; ?>" data-webp-href="<?php echo $src_webp; ?>"  href="<?php echo $this->fields->banner; ?>">
+                            <a no-pjax data-lightbox="gallery" data-webp-href="<?php echo $src_webp; ?>"  href="<?php echo $this->fields->banner; ?>">
                             <?php if(Helper::options()->lazyload == '1'): ?>
                                 <img class="lazyload" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner; ?>" />
                             <?php else: ?>

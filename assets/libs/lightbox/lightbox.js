@@ -1,3 +1,9 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-console */
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
+/* eslint-disable no-undef */
 /*!
  * Lightbox v2.11.1
  * by Lokesh Dhakar
@@ -221,7 +227,9 @@
       self.album.push({
         alt: $link.attr('data-alt'),
         link: $link.attr('href'),
-        title: $link.attr('data-title') || $link.attr('title')
+        title: $link.attr('data-title') || $link.attr('title'),
+        webpLink: $link.attr('data-webp-href') || '',
+        webpValidTag: 0 // 0: intial, 1: no, 2: yes 
       });
     }
 
@@ -276,6 +284,10 @@
     var filetype = filename.split('.').slice(-1)[0];
     var $image = this.$lightbox.find('.lb-image');
 
+    var isWebpSupport = $('body:first').hasClass('webp-support');
+    var webpFilename = this.album[imageNumber].webpLink;
+    var fileWebpValidTag = this.album[imageNumber].webpValidTag;
+
     // Disable keyboard nav during transitions
     this.disableKeyboardNav();
 
@@ -285,9 +297,7 @@
     this.$lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
     this.$outerContainer.addClass('animating');
 
-    // When image to show is preloaded, we send the width and height to sizeContainer()
-    var preloader = new Image();
-    preloader.onload = function() {
+    function preloadHandler(preloadImg, mySrc) {
       var $preloader;
       var imageHeight;
       var imageWidth;
@@ -298,13 +308,13 @@
 
       $image.attr({
         'alt': self.album[imageNumber].alt,
-        'src': filename
+        'src': mySrc
       });
 
-      $preloader = $(preloader);
+      $preloader = $(preloadImg);
 
-      $image.width(preloader.width);
-      $image.height(preloader.height);
+      $image.width(preloadImg.width);
+      $image.height(preloadImg.height);
       windowWidth = $(window).width();
       windowHeight = $(window).height();
 
@@ -322,7 +332,7 @@
       */
 
       if (filetype === 'svg') {
-        if ((preloader.width === 0) || preloader.height === 0) {
+        if ((preloadImg.width === 0) || preloadImg.height === 0) {
           $image.width(maxImageWidth);
           $image.height(maxImageHeight);
         }
@@ -340,30 +350,56 @@
         }
 
       } else {
-        maxImageWidth = self.options.maxWidth || preloader.width || maxImageWidth;
-        maxImageHeight = self.options.maxHeight || preloader.height || maxImageHeight;
+        maxImageWidth = self.options.maxWidth || preloadImg.width || maxImageWidth;
+        maxImageHeight = self.options.maxHeight || preloadImg.height || maxImageHeight;
       }
 
       // Is the current image's width or height is greater than the maxImageWidth or maxImageHeight
       // option than we need to size down while maintaining the aspect ratio.
-      if ((preloader.width > maxImageWidth) || (preloader.height > maxImageHeight)) {
-        if ((preloader.width / maxImageWidth) > (preloader.height / maxImageHeight)) {
+      if ((preloadImg.width > maxImageWidth) || (preloadImg.height > maxImageHeight)) {
+        if ((preloadImg.width / maxImageWidth) > (preloadImg.height / maxImageHeight)) {
           imageWidth  = maxImageWidth;
-          imageHeight = parseInt(preloader.height / (preloader.width / imageWidth), 10);
+          imageHeight = parseInt(preloadImg.height / (preloadImg.width / imageWidth), 10);
           $image.width(imageWidth);
           $image.height(imageHeight);
         } else {
           imageHeight = maxImageHeight;
-          imageWidth = parseInt(preloader.width / (preloader.height / imageHeight), 10);
+          imageWidth = parseInt(preloadImg.width / (preloadImg.height / imageHeight), 10);
           $image.width(imageWidth);
           $image.height(imageHeight);
         }
       }
       self.sizeContainer($image.width(), $image.height());
-    };
+    }
 
-    // Preload image before showing
-    preloader.src = this.album[imageNumber].link;
+    function webpFallback() {
+      var preloader2 = new Image();
+      preloader2.onload = function() {
+        preloadHandler(preloader2, filename);
+      };
+      preloader2.src = filename;
+    }
+    // When image to show is preloaded, we send the width and height to sizeContainer()
+    if (isWebpSupport && fileWebpValidTag === 2) {
+      var myPreloader = new Image();
+      myPreloader.onload = function() {
+        preloadHandler(myPreloader, webpFilename);
+      };
+      myPreloader.src = webpFilename;
+    } else if (isWebpSupport && fileWebpValidTag === 0 && webpFilename) {
+      var preloader1 = new Image();
+      preloader1.onload = function() {
+        fileWebpValidTag = 2;
+        preloadHandler(preloader1, webpFilename);
+      };
+      preloader1.onerror = function() {
+        fileWebpValidTag = 1;
+        webpFallback();
+      };
+      preloader1.src = webpFilename;
+    } else {
+      webpFallback();
+    }
     this.currentImageIndex = imageNumber;
   };
 
@@ -498,13 +534,48 @@
 
   // Preload previous and next images in set.
   Lightbox.prototype.preloadNeighboringImages = function() {
+    var isWebpSupport = $('body:first').hasClass('webp-support');
+  
+    function preloadImg(myLink) {
+      var preloadNeighboringImg = new Image();
+      preloadNeighboringImg.src = myLink;
+    }
+
     if (this.album.length > this.currentImageIndex + 1) {
-      var preloadNext = new Image();
-      preloadNext.src = this.album[this.currentImageIndex + 1].link;
+      var nextImg = this.album[this.currentImageIndex + 1];
+      if (isWebpSupport && nextImg.webpValidTag === 2) {
+        preloadImg(nextImg.webpLink);
+      } else if (isWebpSupport && nextImg.webpValidTag === 0 && nextImg.webpLink) {
+        var preloadNext = new Image();
+        preloadNext.onload = function() {
+          nextImg.webpValidTag = 2;
+        };
+        preloadNext.onerror = function() {
+          nextImg.webpValidTag = 1;
+          preloadImg(nextImg.link);
+        };
+        preloadNext.src = nextImg.webpLink;
+      } else {
+        preloadImg(nextImg.link);
+      }
     }
     if (this.currentImageIndex > 0) {
-      var preloadPrev = new Image();
-      preloadPrev.src = this.album[this.currentImageIndex - 1].link;
+      var prevImg = this.album[this.currentImageIndex - 1];
+      if (isWebpSupport && prevImg.webpValidTag === 2) {
+        preloadImg(prevImg.webpLink);
+      } else if (isWebpSupport && prevImg.webpValidTag === 0 && prevImg.webpLink) {
+        var preloadPrev = new Image();
+        preloadPrev.onload = function() {
+          prevImg.webpValidTag = 2;
+        };
+        preloadPrev.onerror = function() {
+          prevImg.webpValidTag = 1;
+          preloadImg(prevImg.link);
+        };
+        preloadPrev.src = prevImg.webpLink;
+      } else {
+        preloadImg(prevImg.link);
+      }
     }
   };
 

@@ -208,6 +208,10 @@ article {
             max-width: 100%;
             height: 0;
             padding: 0;
+            background-color: #f0f0f0;
+            .theme-dark & {
+                background-color: #232323;
+            }
             img {
                 position: absolute;
                 width: 100%;
