@@ -40,7 +40,10 @@ $setting = $GLOBALS['VOIDSetting'];
                                         $pic_info = $this->fields->banner == '' ? '' : pathinfo($this->fields->banner);
                                         $src_webp = $this->fields->banner == '' ? '' : (($pic_info['dirname'] ? $pic_info['dirname'] . '/' : '') . $pic_info['filename'] . '.' . 'webp');
                                         ?>
-                                        <img class="lazyload" data-webp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner;?>">
+                                            <?php if($setting['bluredLazyload']): ?>
+                                                <img src="<?php echo Contents::genBluredPlaceholderSrc($this->fields->banner); ?>" class="blured-placeholder">
+                                            <?php endif; ?>
+                                        <img class="lazyload" data-web dp-src="<?php echo $src_webp;?>" data-src="<?php echo $this->fields->banner;?>">
                                     <?php else: ?>
                                         <img src="<?php echo $this->fields->banner;?>">
                                     <?php endif; ?>

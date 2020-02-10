@@ -42,7 +42,7 @@ $banner_src_webp = $banner == '' ? '' : (($banner_pic_info['dirname'] ? $banner_
     <?php if(!empty($banner)): ?>
         <div id="banner" class="<?php if($blur) echo 'blur'; ?>">
             <?php if($setting['bluredLazyload']): ?>
-                <img src="<?php echo Contents::genBluredPlaceholderSrc($banner); ?>" class="blured-placeholder">
+                <img src="<?php echo Contents::genBluredPlaceholderSrc($banner); ?>" class="blured-placeholder remove-after">
             <?php endif; ?>
             <img class="lazyload" data-src="<?php echo $banner; ?>" data-webp-src="<?php echo $banner_src_webp; ?>">
         </div>
