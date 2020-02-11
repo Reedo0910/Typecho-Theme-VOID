@@ -308,14 +308,16 @@ Class Contents
 
         // 普通解析且开启懒加载
         $placeholder = '';
+        $placeholder2 = '';
         if(!self::$photoMode && Helper::options()->lazyload == '1') {
             $src = '';
             $classList = 'lazyload';
+            $placeholder2 = '<div class="figure-background"></div>';
             if ($setting['bluredLazyload'])
                 $placeholder = '<img class="blured-placeholder remove-after" src="'.self::genBluredPlaceholderSrc($src_ori).'">';
         }
 
-        $img = $placeholder.'<img class="'.$classList.'" alt="'.$match[2].'" data-src="'.$src_ori.'" data-webp-src="'.$src_webp.'" src="'.$src.'">'; // add webp support
+        $img = $placeholder.'<img class="'.$classList.'" alt="'.$match[2].'" data-src="'.$src_ori.'" data-webp-src="'.$src_webp.'" src="'.$src.'">'.$placeholder2; // add webp support
         
         if (!self::$photoMode) {
             // 生成唯一图片ID

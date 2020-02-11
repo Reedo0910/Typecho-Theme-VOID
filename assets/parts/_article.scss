@@ -201,12 +201,9 @@ article {
             max-width: 100%;
             height: 0;
             padding: 0;
-            background-color: #f0f0f0;
-            .theme-dark & {
-                background-color: #232323;
-            }
             overflow: hidden;
-            img {
+            img,
+            .figure-background {
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -214,6 +211,20 @@ article {
                 top: 0;
                 object-fit: cover;
                 box-sizing: border-box;
+            }
+            img {
+                z-index: 2;
+            }
+            .figure-background {
+                z-index: 1;
+                background-color: #f0f0f0;
+                transition: $animationTime-very-slow ease-in-out opacity;
+                .theme-dark & {
+                    background-color: #232323;
+                }
+                &.loaded {
+                    opacity: 0;
+                }
             }
         }
         figcaption {
@@ -260,6 +271,7 @@ article {
                 bottom: 0;
                 width: auto;
                 margin: 0;
+                z-index: 3;
                 padding: 60px 0 10px!important;
                 color: #fff;
                 background-image: linear-gradient(

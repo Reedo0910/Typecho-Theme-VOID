@@ -118,6 +118,7 @@ VOID_Lazyload = {
                         $(item).addClass('loaded');
                         $(item).attr('src', webp_attr);
                         $(item).siblings('.blured-placeholder').addClass('loaded');
+                        $(item).siblings('.figure-background').addClass('loaded');
                         VOID_Lazyload.removeEventListener();
                         setTimeout(function () {
                             $(item).siblings('.remove-after').remove();
@@ -143,6 +144,7 @@ VOID_Lazyload = {
             $(item).addClass('loaded');
             $(item).attr('src', $(item).attr('data-src'));
             $(item).siblings('.blured-placeholder').addClass('loaded');
+            $(item).siblings('.figure-background').addClass('loaded');
             VOID_Lazyload.removeEventListener();
             setTimeout(function () {
                 $(item).siblings('.remove-after').remove();
